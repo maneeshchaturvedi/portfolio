@@ -1658,7 +1658,11 @@ const Portfolio = () => {
       </section>
 
       {/* Key Skills */}
-      <section className="py-24 px-8 lg:px-16 bg-stone-900/30">
+      <section
+        className={`py-16 lg:py-24 px-6 lg:px-16 ${
+          darkMode ? "bg-stone-900/30" : "bg-stone-100/50"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <p
@@ -1685,7 +1689,11 @@ const Portfolio = () => {
                   {cat.skills.map((skill, j) => (
                     <span
                       key={j}
-                      className="px-3 py-1 text-sm text-stone-400 border border-stone-800 hover:border-stone-600 transition-colors duration-300"
+                      className={`px-3 py-1 text-sm border transition-colors duration-300 ${
+                        darkMode
+                          ? "text-stone-400 border-stone-700 hover:border-amber-500 hover:text-amber-500"
+                          : "text-stone-600 border-stone-300 hover:border-amber-500 hover:text-amber-600"
+                      }`}
                     >
                       {skill}
                     </span>
