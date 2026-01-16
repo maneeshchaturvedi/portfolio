@@ -1762,7 +1762,7 @@ const Portfolio = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-6">
             <a
-              href="mailto:hello@stackshala.com"
+              href="mailto:maneesh@stackshala.com"
               className={`group relative px-6 lg:px-8 py-3 lg:py-4 font-medium tracking-wider overflow-hidden w-full sm:w-auto text-center ${
                 darkMode
                   ? "bg-amber-500 text-stone-950"
