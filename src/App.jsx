@@ -41,20 +41,23 @@ const Portfolio = () => {
   const frameworks = [
     {
       name: "Discover",
-      description: "Navigate unfamiliar codebases with systematic exploration",
-      metric: "70% faster comprehension",
+      description:
+        "Build mental models of any codebase, no matter how complex.",
+      metric: "Understand Unknown Code",
       icon: "◈",
     },
     {
       name: "Track",
-      description: "Follow complexity through systems with precision",
-      metric: "Zero context lost",
+      description:
+        "Learn to manage and evolve systems that grow over time—complexity AI amplifies but cannot navigate.",
+      metric: "Tame Complexity",
       icon: "◇",
     },
     {
       name: "Adapt",
-      description: "Transform understanding into sustainable changes",
-      metric: "3× bug reduction",
+      description:
+        "Not retrofitting patterns, but thinking from first principles—the architecture AI needs you to define.",
+      metric: "Design from Principles",
       icon: "○",
     },
   ];
@@ -75,21 +78,6 @@ const Portfolio = () => {
     {
       axis: "Pressure",
       insight: "What forces shape decisions? What constraints exist?",
-    },
-  ];
-
-  const experience = [
-    {
-      company: "Microsoft",
-      role: "Principal Engineer",
-      years: "Building at scale",
-    },
-    { company: "Target", role: "Principal Engineer", years: "Retail systems" },
-    { company: "Intuit", role: "Principal Engineer", years: "Financial tech" },
-    {
-      company: "Lowe's",
-      role: "Principal Engineer",
-      years: "Enterprise systems",
     },
   ];
 
