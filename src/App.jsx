@@ -5,10 +5,38 @@ const Portfolio = () => {
   const [activeSection, setActiveSection] = useState("hero");
   const [hoveredFramework, setHoveredFramework] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
   useEffect(() => {
     setIsLoaded(true);
+    // Check system preference on mount
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const savedMode = localStorage.getItem("darkMode");
+    if (savedMode !== null) {
+      setDarkMode(savedMode === "true");
+    } else {
+      setDarkMode(prefersDark);
+    }
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("darkMode", darkMode);
+  }, [darkMode]);
+
+  const toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleMobileMenu = () => setMobileMenuOpen(!mobileMenuOpen);
+
+  const navLinks = [
+    { href: "#experience", label: "Experience" },
+    { href: "#frameworks", label: "Frameworks" },
+    { href: "#writing", label: "Writing" },
+    { href: "#specflow", label: "SpecFlow" },
+    { href: "#ventures", label: "Ventures" },
+    { href: "#connect", label: "Connect" },
+  ];
 
   const frameworks = [
     {
@@ -480,12 +508,18 @@ const Portfolio = () => {
 
   return (
     <div
-      className="min-h-screen bg-stone-950 text-stone-100 overflow-x-hidden"
+      className={`min-h-screen overflow-x-hidden transition-colors duration-300 ${
+        darkMode
+          ? "bg-stone-950 dark:bg-stone-950 text-stone-100"
+          : "bg-stone-50 text-stone-900"
+      }`}
       style={{ fontFamily: "'Crimson Pro', Georgia, serif" }}
     >
       {/* Grain overlay */}
       <div
-        className="fixed inset-0 pointer-events-none opacity-30 z-50"
+        className={`fixed inset-0 pointer-events-none z-50 ${
+          darkMode ? "opacity-30" : "opacity-10"
+        }`}
         style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")`,
           mixBlendMode: "overlay",
@@ -494,9 +528,11 @@ const Portfolio = () => {
 
       {/* Navigation */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-40 px-8 py-6 flex justify-between items-center transition-all duration-1000 ${
+        className={`fixed top-0 left-0 right-0 z-40 px-6 lg:px-8 py-4 lg:py-6 flex justify-between items-center transition-all duration-1000 ${
           isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-        }`}
+        } ${
+          darkMode ? "bg-stone-950 dark:bg-stone-950/90" : "bg-stone-50/90"
+        } backdrop-blur-sm`}
       >
         <div
           className="text-lg tracking-widest font-light"
@@ -504,51 +540,157 @@ const Portfolio = () => {
         >
           MANEESH
         </div>
+
+        {/* Desktop Navigation */}
         <div
-          className="flex gap-8 text-sm tracking-wider text-stone-400"
+          className={`hidden lg:flex gap-8 text-sm tracking-wider ${
+            darkMode ? "text-stone-400" : "text-stone-600"
+          }`}
           style={{ fontFamily: "'Space Mono', monospace" }}
         >
-          <a
-            href="#experience"
-            className="hover:text-amber-400 transition-colors duration-300"
+          {navLinks.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="hover:text-amber-500 transition-colors duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+
+        {/* Right side controls */}
+        <div className="flex items-center gap-4">
+          {/* Dark Mode Toggle */}
+          <button
+            onClick={toggleDarkMode}
+            className={`p-2 rounded-lg transition-colors duration-300 ${
+              darkMode
+                ? "text-stone-400 hover:text-amber-500 hover:bg-stone-800"
+                : "text-stone-600 hover:text-amber-600 hover:bg-stone-200"
+            }`}
+            aria-label="Toggle dark mode"
           >
-            Experience
-          </a>
-          <a
-            href="#frameworks"
-            className="hover:text-amber-400 transition-colors duration-300"
+            {darkMode ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+                />
+              </svg>
+            )}
+          </button>
+
+          {/* Mobile Menu Button */}
+          <button
+            onClick={toggleMobileMenu}
+            className={`lg:hidden p-2 rounded-lg transition-colors duration-300 ${
+              darkMode
+                ? "text-stone-400 hover:text-amber-500 hover:bg-stone-800"
+                : "text-stone-600 hover:text-amber-600 hover:bg-stone-200"
+            }`}
+            aria-label="Toggle menu"
           >
-            Frameworks
-          </a>
-          <a
-            href="#writing"
-            className="hover:text-amber-400 transition-colors duration-300"
-          >
-            Writing
-          </a>
-          <a
-            href="#specflow"
-            className="hover:text-amber-400 transition-colors duration-300"
-          >
-            SpecFlow
-          </a>
-          <a
-            href="#ventures"
-            className="hover:text-amber-400 transition-colors duration-300"
-          >
-            Ventures
-          </a>
-          <a
-            href="#connect"
-            className="hover:text-amber-400 transition-colors duration-300"
-          >
-            Connect
-          </a>
+            {mobileMenuOpen ? (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+            )}
+          </button>
         </div>
       </nav>
 
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 z-30 lg:hidden transition-all duration-300 ${
+          mobileMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+        onClick={() => setMobileMenuOpen(false)}
+      >
+        <div
+          className={`absolute inset-0 ${
+            darkMode ? "bg-stone-950 dark:bg-stone-950/95" : "bg-stone-50/95"
+          } backdrop-blur-md`}
+        />
+        <div className="relative flex flex-col items-center justify-center h-full gap-8">
+          {navLinks.map((link, i) => (
+            <a
+              key={link.href}
+              href={link.href}
+              onClick={() => setMobileMenuOpen(false)}
+              className={`text-2xl font-light tracking-wider transition-all duration-300 ${
+                darkMode
+                  ? "text-stone-300 hover:text-amber-500"
+                  : "text-stone-700 hover:text-amber-600"
+              }`}
+              style={{
+                fontFamily: "'Space Mono', monospace",
+                transitionDelay: `${i * 50}ms`,
+                transform: mobileMenuOpen
+                  ? "translateY(0)"
+                  : "translateY(20px)",
+                opacity: mobileMenuOpen ? 1 : 0,
+              }}
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center relative px-8 lg:px-16">
+      <section className="min-h-screen flex items-center relative px-6 lg:px-16">
         <div className="absolute top-0 right-0 w-1/2 h-full opacity-10">
           <div
             className="absolute inset-0"
@@ -559,28 +701,52 @@ const Portfolio = () => {
           />
         </div>
 
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center pt-24">
+        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center pt-24">
           <div
             className={`transition-all duration-1000 delay-300 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
           >
             <p
-              className="text-amber-400 tracking-widest text-sm mb-6 uppercase"
+              className="text-amber-500 tracking-widest text-sm mb-6 uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               25 Years Building Software
             </p>
-            <h1 className="text-5xl lg:text-7xl font-light leading-tight mb-8 tracking-tight">
+            <h1 className="text-4xl lg:text-7xl font-light leading-tight mb-8 tracking-tight">
               First Principles,
               <br />
-              <span className="italic text-stone-400">Not Patterns</span>
+              <span
+                className={`italic ${
+                  darkMode ? "text-stone-400" : "text-stone-500"
+                }`}
+              >
+                Not Patterns
+              </span>
             </h1>
-            <p className="text-xl text-stone-400 leading-relaxed max-w-lg">
+            <p
+              className={`text-lg lg:text-xl leading-relaxed max-w-lg ${
+                darkMode ? "text-stone-400" : "text-stone-600"
+              }`}
+            >
               The industry teaches pattern memorization. I teach systematic
               thinking. The difference? Engineers who understand{" "}
-              <em className="text-stone-200 not-italic">why</em>, not just{" "}
-              <em className="text-stone-200 not-italic">how</em>.
+              <em
+                className={`not-italic ${
+                  darkMode ? "text-stone-200" : "text-stone-800"
+                }`}
+              >
+                why
+              </em>
+              , not just{" "}
+              <em
+                className={`not-italic ${
+                  darkMode ? "text-stone-200" : "text-stone-800"
+                }`}
+              >
+                how
+              </em>
+              .
             </p>
           </div>
 
@@ -591,23 +757,39 @@ const Portfolio = () => {
           >
             <div className="relative">
               <div
-                className="absolute -inset-4 border border-stone-800"
+                className={`absolute -inset-4 border ${
+                  darkMode ? "border-stone-800" : "border-stone-300"
+                }`}
                 style={{ transform: "rotate(3deg)" }}
               />
-              <div className="bg-stone-900 p-8 relative">
+              <div
+                className={`p-6 lg:p-8 relative ${
+                  darkMode ? "bg-stone-900" : "bg-white shadow-lg"
+                }`}
+              >
                 <p
-                  className="text-stone-500 text-sm tracking-wider mb-4 uppercase"
+                  className={`text-sm tracking-wider mb-4 uppercase ${
+                    darkMode ? "text-stone-500" : "text-stone-400"
+                  }`}
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   From the notebook
                 </p>
-                <blockquote className="text-2xl leading-relaxed italic text-stone-300">
+                <blockquote
+                  className={`text-xl lg:text-2xl leading-relaxed italic ${
+                    darkMode ? "text-stone-300" : "text-stone-700"
+                  }`}
+                >
                   "Real understanding isn't about recognizing patterns—it's
                   about seeing the forces that create them."
                 </blockquote>
                 <div className="mt-6 flex items-center gap-4">
-                  <div className="w-12 h-px bg-amber-400" />
-                  <span className="text-stone-500 text-sm">
+                  <div className="w-12 h-px bg-amber-500" />
+                  <span
+                    className={`text-sm ${
+                      darkMode ? "text-stone-500" : "text-stone-400"
+                    }`}
+                  >
                     Silent Worker Philosophy
                   </span>
                 </div>
@@ -621,28 +803,46 @@ const Portfolio = () => {
             isLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
-          <div className="flex flex-col items-center gap-2 text-stone-600">
+          <div
+            className={`flex flex-col items-center gap-2 ${
+              darkMode ? "text-stone-600" : "text-stone-400"
+            }`}
+          >
             <span
               className="text-xs tracking-widest uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               Scroll
             </span>
-            <div className="w-px h-12 bg-gradient-to-b from-stone-600 to-transparent animate-pulse" />
+            <div
+              className={`w-px h-12 bg-gradient-to-b ${
+                darkMode ? "from-stone-600" : "from-stone-400"
+              } to-transparent animate-pulse`}
+            />
           </div>
         </div>
       </section>
 
       {/* Experience Strip */}
-      <section className="py-16 border-y border-stone-800 overflow-hidden">
+      <section
+        className={`py-12 lg:py-16 border-y overflow-hidden ${
+          darkMode ? "border-stone-800" : "border-stone-200"
+        }`}
+      >
         <div
-          className={`flex items-center justify-center gap-16 text-stone-500 transition-all duration-1000 delay-700 ${
+          className={`flex flex-wrap justify-center gap-6 lg:gap-16 px-6 ${
+            darkMode ? "text-stone-500" : "text-stone-400"
+          } transition-all duration-1000 delay-700 ${
             isLoaded ? "opacity-100" : "opacity-0"
           }`}
         >
           {experience.map((exp, i) => (
-            <div key={i} className="flex items-center gap-4 group">
-              <span className="text-2xl font-light text-stone-300 group-hover:text-amber-400 transition-colors duration-300">
+            <div key={i} className="flex items-center gap-2 lg:gap-4 group">
+              <span
+                className={`text-lg lg:text-2xl font-light group-hover:text-amber-500 transition-colors duration-300 ${
+                  darkMode ? "text-stone-300" : "text-stone-700"
+                }`}
+              >
                 {exp.company}
               </span>
               <span
@@ -657,19 +857,19 @@ const Portfolio = () => {
       </section>
 
       {/* Detailed Experience Section */}
-      <section id="experience" className="py-32 px-8 lg:px-16">
+      <section id="experience" className="py-16 lg:py-32 px-6 lg:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-3 gap-2 mb-16">
             <div className="lg:col-span-1">
               <p
-                className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Career Journey
               </p>
             </div>
             <div className="lg:col-span-2">
-              <h2 className="text-4xl lg:text-5xl font-light leading-tight">
+              <h2 className="text-3xl lg:text-5xl font-light leading-tight">
                 25+ years of building
                 <br />
                 systems that last
@@ -682,23 +882,33 @@ const Portfolio = () => {
             {detailedExperience.map((job, i) => (
               <div
                 key={i}
-                className="group grid lg:grid-cols-12 gap-8 pb-12 border-b border-stone-800/50 last:border-0"
+                className={`group grid lg:grid-cols-12 gap-6 lg:gap-8 pb-12 border-b last:border-0 ${
+                  darkMode ? "border-stone-800/50" : "border-stone-200"
+                }`}
               >
                 {/* Left Column - Company Info */}
                 <div className="lg:col-span-4">
                   <div className="lg:sticky lg:top-32">
-                    <h3 className="text-2xl font-light mb-2 group-hover:text-amber-400 transition-colors duration-300">
+                    <h3 className="text-xl lg:text-2xl font-light mb-2 group-hover:text-amber-500 transition-colors duration-300">
                       {job.company}
                     </h3>
                     <p
-                      className="text-amber-400 text-sm mb-1"
+                      className="text-amber-500 text-sm mb-1"
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {job.role}
                     </p>
-                    <p className="text-stone-500 text-sm mb-1">{job.team}</p>
                     <p
-                      className="text-stone-600 text-xs"
+                      className={`text-sm mb-1 ${
+                        darkMode ? "text-stone-500" : "text-stone-500"
+                      }`}
+                    >
+                      {job.team}
+                    </p>
+                    <p
+                      className={`text-xs ${
+                        darkMode ? "text-stone-600" : "text-stone-400"
+                      }`}
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {job.period} · {job.location}
@@ -707,7 +917,11 @@ const Portfolio = () => {
                       {job.tags.map((tag, j) => (
                         <span
                           key={j}
-                          className="text-xs px-2 py-1 bg-stone-900 text-stone-500 border border-stone-800"
+                          className={`text-xs px-2 py-1 border ${
+                            darkMode
+                              ? "bg-stone-900 text-stone-500 border-stone-800"
+                              : "bg-stone-100 text-stone-500 border-stone-200"
+                          }`}
                           style={{ fontFamily: "'Space Mono', monospace" }}
                         >
                           {tag}
@@ -723,9 +937,11 @@ const Portfolio = () => {
                     {job.highlights.map((highlight, j) => (
                       <li
                         key={j}
-                        className="flex gap-4 text-stone-400 leading-relaxed"
+                        className={`flex gap-4 leading-relaxed ${
+                          darkMode ? "text-stone-400" : "text-stone-600"
+                        }`}
                       >
-                        <span className="text-amber-400/60 mt-1">◇</span>
+                        <span className="text-amber-500/60 mt-1">◇</span>
                         <span>{highlight}</span>
                       </li>
                     ))}
@@ -736,23 +952,45 @@ const Portfolio = () => {
           </div>
 
           {/* Earlier Roles */}
-          <div className="mt-16 pt-16 border-t border-stone-800">
+          <div
+            className={`mt-16 pt-16 border-t ${
+              darkMode ? "border-stone-800" : "border-stone-200"
+            }`}
+          >
             <p
-              className="text-xs text-stone-600 tracking-widest uppercase mb-6"
+              className={`text-xs tracking-widest uppercase mb-6 ${
+                darkMode ? "text-stone-600" : "text-stone-400"
+              }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               Earlier Roles (2000 – 2011)
             </p>
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-4 lg:gap-6">
               {earlierRoles.map((role, i) => (
                 <div key={i} className="group">
-                  <span className="text-stone-400 group-hover:text-stone-300 transition-colors duration-300">
+                  <span
+                    className={`group-hover:text-amber-500 transition-colors duration-300 ${
+                      darkMode ? "text-stone-400" : "text-stone-600"
+                    }`}
+                  >
                     {role.role}
                   </span>
-                  <span className="text-stone-600 mx-2">@</span>
-                  <span className="text-stone-500">{role.company}</span>
                   <span
-                    className="text-stone-700 text-xs ml-2"
+                    className={`mx-2 ${
+                      darkMode ? "text-stone-600" : "text-stone-400"
+                    }`}
+                  >
+                    @
+                  </span>
+                  <span
+                    className={darkMode ? "text-stone-500" : "text-stone-500"}
+                  >
+                    {role.company}
+                  </span>
+                  <span
+                    className={`text-xs ml-2 ${
+                      darkMode ? "text-stone-700" : "text-stone-400"
+                    }`}
                     style={{ fontFamily: "'Space Mono', monospace" }}
                   >
                     {role.period}
@@ -765,25 +1003,25 @@ const Portfolio = () => {
       </section>
 
       {/* Frameworks Section */}
-      <section id="frameworks" className="py-32 px-8 lg:px-16">
+      <section id="frameworks" className="py-16 lg:py-32 px-6 lg:px-16">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-2 mb-20">
+          <div className="grid lg:grid-cols-3 gap-2 mb-12 lg:mb-20">
             <div className="lg:col-span-1">
               <p
-                className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 The Frameworks
               </p>
             </div>
             <div className="lg:col-span-2">
-              <h2 className="text-4xl lg:text-5xl font-light leading-tight">
+              <h2 className="text-3xl lg:text-5xl font-light leading-tight">
                 Three lenses for seeing software clearly
               </h2>
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
             {frameworks.map((fw, i) => (
               <div
                 key={i}
@@ -794,25 +1032,41 @@ const Portfolio = () => {
                 <div
                   className={`absolute inset-0 border transition-all duration-500 ${
                     hoveredFramework === i
-                      ? "border-amber-400 scale-105"
-                      : "border-stone-800"
+                      ? "border-amber-500 scale-105"
+                      : darkMode
+                      ? "border-stone-800"
+                      : "border-stone-200"
                   }`}
                   style={{
                     transform:
                       hoveredFramework === i ? "rotate(-1deg)" : "rotate(0deg)",
                   }}
                 />
-                <div className="relative bg-stone-900 p-8 h-full transition-transform duration-500 group-hover:-translate-y-2">
-                  <div className="text-5xl text-amber-400 mb-6 opacity-60">
+                <div
+                  className={`relative p-6 lg:p-8 h-full transition-transform duration-500 group-hover:-translate-y-2 ${
+                    darkMode ? "bg-stone-900" : "bg-white shadow-sm"
+                  }`}
+                >
+                  <div className="text-4xl lg:text-5xl text-amber-500 mb-6 opacity-60">
                     {fw.icon}
                   </div>
-                  <h3 className="text-2xl font-light mb-4">{fw.name}</h3>
-                  <p className="text-stone-400 leading-relaxed mb-6">
+                  <h3 className="text-xl lg:text-2xl font-light mb-4">
+                    {fw.name}
+                  </h3>
+                  <p
+                    className={`leading-relaxed mb-6 ${
+                      darkMode ? "text-stone-400" : "text-stone-600"
+                    }`}
+                  >
                     {fw.description}
                   </p>
-                  <div className="pt-6 border-t border-stone-800">
+                  <div
+                    className={`pt-6 border-t ${
+                      darkMode ? "border-stone-800" : "border-stone-200"
+                    }`}
+                  >
                     <span
-                      className="text-sm text-amber-400 tracking-wider"
+                      className="text-sm text-amber-500 tracking-wider"
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {fw.metric}
@@ -826,22 +1080,31 @@ const Portfolio = () => {
       </section>
 
       {/* Meta Framework */}
-      <section id="philosophy" className="py-32 px-8 lg:px-16 bg-stone-900/50">
+      <section
+        id="philosophy"
+        className={`py-16 lg:py-32 px-6 lg:px-16 ${
+          darkMode ? "bg-stone-900/50" : "bg-stone-100/50"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
             <div>
               <p
-                className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Meta-Framework
               </p>
-              <h2 className="text-4xl lg:text-5xl font-light leading-tight mb-8">
+              <h2 className="text-3xl lg:text-5xl font-light leading-tight mb-8">
                 Four Axes of
                 <br />
                 Software Design
               </h2>
-              <p className="text-stone-400 text-lg leading-relaxed">
+              <p
+                className={`text-lg leading-relaxed ${
+                  darkMode ? "text-stone-400" : "text-stone-600"
+                }`}
+              >
                 Every system can be understood through these four lenses. Master
                 them, and complexity becomes navigable.
               </p>
@@ -851,20 +1114,30 @@ const Portfolio = () => {
               {metaFramework.map((item, i) => (
                 <div
                   key={i}
-                  className="group border-l-2 border-stone-700 hover:border-amber-400 pl-6 py-4 transition-all duration-300"
+                  className={`group border-l-2 hover:border-amber-500 pl-6 py-4 transition-all duration-300 ${
+                    darkMode ? "border-stone-700" : "border-stone-300"
+                  }`}
                 >
                   <div className="flex items-baseline gap-4 mb-2">
                     <span
-                      className="text-xs text-stone-600"
+                      className={`text-xs ${
+                        darkMode ? "text-stone-600" : "text-stone-400"
+                      }`}
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       0{i + 1}
                     </span>
-                    <h3 className="text-xl font-light group-hover:text-amber-400 transition-colors duration-300">
+                    <h3 className="text-xl font-light group-hover:text-amber-500 transition-colors duration-300">
                       {item.axis}
                     </h3>
                   </div>
-                  <p className="text-stone-500 italic">{item.insight}</p>
+                  <p
+                    className={`italic ${
+                      darkMode ? "text-stone-500" : "text-stone-500"
+                    }`}
+                  >
+                    {item.insight}
+                  </p>
                 </div>
               ))}
             </div>
@@ -873,38 +1146,46 @@ const Portfolio = () => {
       </section>
 
       {/* Blog Section */}
-      <section id="writing" className="py-32 px-8 lg:px-16">
+      <section id="writing" className="py-16 lg:py-32 px-6 lg:px-16">
         <div className="max-w-6xl mx-auto">
           {/* Blog Header */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-12 lg:mb-16">
             <p
-              className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+              className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               90+ Articles & Counting
             </p>
-            <h2 className="text-4xl lg:text-5xl font-light leading-tight mb-6">
+            <h2 className="text-3xl lg:text-5xl font-light leading-tight mb-6">
               The Stackshala Blog
             </h2>
-            <p className="text-xl text-stone-400 max-w-2xl mx-auto">
+            <p
+              className={`text-lg lg:text-xl max-w-2xl mx-auto ${
+                darkMode ? "text-stone-400" : "text-stone-600"
+              }`}
+            >
               Deep dives into system design, refactoring wisdom, and the
               philosophy of software craftsmanship.
             </p>
           </div>
 
           {/* Featured Articles */}
-          <div className="mb-20">
+          <div className="mb-12 lg:mb-20">
             <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-xs text-amber-400 tracking-widest uppercase"
+                className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Featured
               </span>
-              <div className="flex-1 h-px bg-stone-800" />
+              <div
+                className={`flex-1 h-px ${
+                  darkMode ? "bg-stone-800" : "bg-stone-200"
+                }`}
+              />
             </div>
 
-            <div className="grid lg:grid-cols-3 gap-8">
+            <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
               {featuredArticles.map((article, i) => (
                 <a
                   key={i}
@@ -913,30 +1194,46 @@ const Portfolio = () => {
                   rel="noopener noreferrer"
                   className="group relative"
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
-                  <div className="relative border border-stone-800 p-8 h-full bg-stone-950 group-hover:border-amber-400/50 transition-all duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                  <div
+                    className={`relative border p-6 lg:p-8 h-full group-hover:border-amber-500/50 transition-all duration-300 ${
+                      darkMode
+                        ? "border-stone-800 bg-stone-950 dark:bg-stone-950"
+                        : "border-stone-200 bg-white"
+                    }`}
+                  >
                     <div className="flex items-center gap-3 mb-4">
                       <span
-                        className="text-xs px-2 py-1 bg-stone-800 text-stone-400 uppercase tracking-wider"
+                        className={`text-xs px-2 py-1 uppercase tracking-wider ${
+                          darkMode
+                            ? "bg-stone-800 text-stone-400"
+                            : "bg-stone-100 text-stone-500"
+                        }`}
                         style={{ fontFamily: "'Space Mono', monospace" }}
                       >
                         {article.category.replace("-", " ")}
                       </span>
                       <span
-                        className="text-xs text-stone-600"
+                        className={`text-xs ${
+                          darkMode ? "text-stone-600" : "text-stone-400"
+                        }`}
                         style={{ fontFamily: "'Space Mono', monospace" }}
                       >
                         {article.date}
                       </span>
                     </div>
-                    <h3 className="text-xl font-light mb-3 group-hover:text-amber-400 transition-colors duration-300 leading-snug">
+                    <h3 className="text-lg lg:text-xl font-light mb-3 group-hover:text-amber-500 transition-colors duration-300 leading-snug">
                       {article.title}
                     </h3>
-                    <p className="text-stone-500 text-sm leading-relaxed">
+                    <p
+                      className={`text-sm leading-relaxed ${
+                        darkMode ? "text-stone-500" : "text-stone-500"
+                      }`}
+                    >
                       {article.excerpt}
                     </p>
                     <div
-                      className="mt-6 flex items-center gap-2 text-amber-400 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      className="mt-6 flex items-center gap-2 text-amber-500 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       <span>Read</span>
@@ -951,7 +1248,9 @@ const Portfolio = () => {
           {/* Category Filter */}
           <div className="flex items-center gap-4 mb-8 overflow-x-auto pb-4">
             <span
-              className="text-xs text-stone-600 tracking-widest uppercase shrink-0"
+              className={`text-xs tracking-widest uppercase shrink-0 ${
+                darkMode ? "text-stone-600" : "text-stone-400"
+              }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               Filter:
@@ -962,8 +1261,10 @@ const Portfolio = () => {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`shrink-0 px-4 py-2 text-sm transition-all duration-300 ${
                   activeCategory === cat.id
-                    ? "bg-amber-400 text-stone-950"
-                    : "border border-stone-700 text-stone-400 hover:border-stone-500"
+                    ? "bg-amber-500 text-stone-950"
+                    : darkMode
+                    ? "border border-stone-700 text-stone-400 hover:border-stone-500"
+                    : "border border-stone-300 text-stone-600 hover:border-stone-400"
                 }`}
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
@@ -974,38 +1275,60 @@ const Portfolio = () => {
           </div>
 
           {/* Articles Grid */}
-          <div className="grid lg:grid-cols-2 gap-6 mb-12">
+          <div className="grid lg:grid-cols-2 gap-4 lg:gap-6 mb-12">
             {filteredArticles.slice(0, 8).map((article, i) => (
               <a
                 key={i}
                 href={`https://blog.stackshala.com/${article.slug}/`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex gap-6 p-6 border border-stone-800/50 hover:border-stone-700 hover:bg-stone-900/30 transition-all duration-300"
+                className={`group flex gap-4 lg:gap-6 p-4 lg:p-6 border transition-all duration-300 ${
+                  darkMode
+                    ? "border-stone-800/50 hover:border-stone-700 hover:bg-stone-900/30"
+                    : "border-stone-200 hover:border-stone-300 hover:bg-stone-50"
+                }`}
               >
-                <div className="shrink-0 w-12 h-12 border border-stone-800 flex items-center justify-center text-stone-600 group-hover:border-amber-400 group-hover:text-amber-400 transition-all duration-300">
+                <div
+                  className={`shrink-0 w-10 h-10 lg:w-12 lg:h-12 border flex items-center justify-center group-hover:border-amber-500 group-hover:text-amber-500 transition-all duration-300 ${
+                    darkMode
+                      ? "border-stone-800 text-stone-600"
+                      : "border-stone-200 text-stone-400"
+                  }`}
+                >
                   <span className="text-lg">◇</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-3 mb-2">
                     <span
-                      className="text-xs text-stone-600 uppercase tracking-wider"
+                      className={`text-xs uppercase tracking-wider ${
+                        darkMode ? "text-stone-600" : "text-stone-400"
+                      }`}
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {article.category.replace("-", " ")}
                     </span>
-                    <span className="text-stone-700">·</span>
                     <span
-                      className="text-xs text-stone-600"
+                      className={darkMode ? "text-stone-700" : "text-stone-300"}
+                    >
+                      ·
+                    </span>
+                    <span
+                      className={`text-xs ${
+                        darkMode ? "text-stone-600" : "text-stone-400"
+                      }`}
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {article.date}
                     </span>
                   </div>
-                  <h4 className="text-lg font-light group-hover:text-amber-400 transition-colors duration-300 mb-2 truncate">
+                  <h4 className="text-base lg:text-lg font-light group-hover:text-amber-500 transition-colors duration-300 mb-2 truncate">
                     {article.title}
                   </h4>
-                  <p className="text-stone-500 text-sm line-clamp-2">
+                  <p
+                    className={`text-sm line-clamp-2 ${
+                      darkMode ? "text-stone-500" : "text-stone-500"
+                    }`}
+                  >
                     {article.excerpt}
                   </p>
                 </div>
@@ -1019,7 +1342,11 @@ const Portfolio = () => {
               href="https://blog.stackshala.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-4 px-8 py-4 border border-stone-700 text-stone-400 hover:border-amber-400 hover:text-amber-400 transition-all duration-300"
+              className={`inline-flex items-center gap-4 px-6 lg:px-8 py-3 lg:py-4 border hover:border-amber-500 hover:text-amber-500 transition-all duration-300 ${
+                darkMode
+                  ? "border-stone-700 text-stone-400"
+                  : "border-stone-300 text-stone-600"
+              }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               <span>EXPLORE ALL 90+ ARTICLES</span>
@@ -1030,13 +1357,18 @@ const Portfolio = () => {
       </section>
 
       {/* SpecFlow Section */}
-      <section id="specflow" className="py-32 px-8 lg:px-16 bg-stone-900/50">
+      <section
+        id="specflow"
+        className={`py-16 lg:py-32 px-6 lg:px-16 ${
+          darkMode ? "bg-stone-900/50" : "bg-stone-100/50"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
           {/* SpecFlow Header */}
           <div className="grid lg:grid-cols-2 gap-16 mb-20">
             <div>
               <p
-                className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Developer Tool
@@ -1078,7 +1410,7 @@ const Portfolio = () => {
                 className="absolute -inset-4 border border-stone-800 opacity-50"
                 style={{ transform: "rotate(-1deg)" }}
               />
-              <div className="relative bg-stone-950 p-6 border border-stone-800">
+              <div className="relative bg-stone-950 dark:bg-stone-950 p-6 border border-stone-800">
                 <p
                   className="text-xs text-stone-600 tracking-widest uppercase mb-4"
                   style={{ fontFamily: "'Space Mono', monospace" }}
@@ -1115,7 +1447,7 @@ const Portfolio = () => {
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-xs text-amber-400 tracking-widest uppercase"
+                className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Tier System
@@ -1151,14 +1483,14 @@ const Portfolio = () => {
                   key={i}
                   className={`p-6 border transition-all duration-300 ${
                     plan.tier === "PRO"
-                      ? "border-amber-400/50 bg-amber-400/5"
+                      ? "border-amber-500/50 bg-amber-500/5"
                       : "border-stone-800 hover:border-stone-700"
                   }`}
                 >
                   <div className="flex items-baseline justify-between mb-4">
                     <span className="text-lg font-light">{plan.tier}</span>
                     <span
-                      className="text-amber-400 text-sm"
+                      className="text-amber-500 text-sm"
                       style={{ fontFamily: "'Space Mono', monospace" }}
                     >
                       {plan.price}
@@ -1187,7 +1519,7 @@ const Portfolio = () => {
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-xs text-amber-400 tracking-widest uppercase"
+                className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Core Capabilities
@@ -1201,11 +1533,11 @@ const Portfolio = () => {
                   key={i}
                   className="group flex gap-6 p-6 border border-stone-800/50 hover:border-stone-700 transition-all duration-300"
                 >
-                  <div className="shrink-0 w-12 h-12 border border-stone-800 flex items-center justify-center text-amber-400/60 group-hover:border-amber-400 group-hover:text-amber-400 transition-all duration-300">
+                  <div className="shrink-0 w-12 h-12 border border-stone-800 flex items-center justify-center text-amber-500/60 group-hover:border-amber-500 group-hover:text-amber-500 transition-all duration-300">
                     <span className="text-xl">{feature.icon}</span>
                   </div>
                   <div>
-                    <h4 className="text-lg font-light mb-2 group-hover:text-amber-400 transition-colors duration-300">
+                    <h4 className="text-lg font-light mb-2 group-hover:text-amber-500 transition-colors duration-300">
                       {feature.title}
                     </h4>
                     <p className="text-stone-500 text-sm leading-relaxed">
@@ -1221,7 +1553,7 @@ const Portfolio = () => {
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-xs text-amber-400 tracking-widest uppercase"
+                className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 LLM Proxy: 5-Layer Validation
@@ -1239,7 +1571,7 @@ const Portfolio = () => {
               ].map((layer, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <span
-                    className="w-8 h-8 flex items-center justify-center text-xs bg-stone-800 text-amber-400"
+                    className="w-8 h-8 flex items-center justify-center text-xs bg-stone-800 text-amber-500"
                     style={{ fontFamily: "'Space Mono', monospace" }}
                   >
                     {i + 1}
@@ -1255,7 +1587,7 @@ const Portfolio = () => {
           <div>
             <div className="flex items-center gap-4 mb-8">
               <span
-                className="text-xs text-amber-400 tracking-widest uppercase"
+                className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
                 Tech Stack
@@ -1287,7 +1619,7 @@ const Portfolio = () => {
       <section id="ventures" className="py-32 px-8 lg:px-16">
         <div className="max-w-6xl mx-auto">
           <p
-            className="text-amber-400 tracking-widest text-sm mb-4 uppercase text-center"
+            className="text-amber-500 tracking-widest text-sm mb-4 uppercase text-center"
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
             Current Ventures
@@ -1300,17 +1632,17 @@ const Portfolio = () => {
             {ventures.map((venture, i) => (
               <div key={i} className="group relative">
                 <div className="absolute -inset-px bg-gradient-to-br from-amber-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <div className="relative border border-stone-800 p-10 h-full bg-stone-950 group-hover:border-stone-700 transition-colors duration-300">
+                <div className="relative border border-stone-800 p-10 h-full bg-stone-950 dark:bg-stone-950 group-hover:border-stone-700 transition-colors duration-300">
                   <div className="flex items-start justify-between mb-6">
                     <div>
                       <h3 className="text-2xl font-light mb-2">
                         {venture.name}
                       </h3>
-                      <p className="text-amber-400 text-sm italic">
+                      <p className="text-amber-500 text-sm italic">
                         {venture.tagline}
                       </p>
                     </div>
-                    <div className="w-12 h-12 border border-stone-700 flex items-center justify-center text-stone-600 group-hover:border-amber-400 group-hover:text-amber-400 transition-all duration-300">
+                    <div className="w-12 h-12 border border-stone-700 flex items-center justify-center text-stone-600 group-hover:border-amber-500 group-hover:text-amber-500 transition-all duration-300">
                       <span className="text-2xl">→</span>
                     </div>
                   </div>
@@ -1336,7 +1668,7 @@ const Portfolio = () => {
       <section className="py-32 px-8 lg:px-16 bg-gradient-to-b from-stone-900/50 to-stone-950">
         <div className="max-w-4xl mx-auto text-center">
           <p
-            className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+            className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
             In Progress
@@ -1364,7 +1696,7 @@ const Portfolio = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <p
-              className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+              className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               Talks & Publications
@@ -1384,18 +1716,18 @@ const Portfolio = () => {
                   <span
                     className={`text-xs px-2 py-1 ${
                       item.type === "Book"
-                        ? "bg-amber-400/10 text-amber-400 border border-amber-400/30"
+                        ? "bg-amber-500/10 text-amber-500 border border-amber-500/30"
                         : "bg-stone-800 text-stone-400"
                     }`}
                     style={{ fontFamily: "'Space Mono', monospace" }}
                   >
                     {item.type}
                   </span>
-                  <span className="text-stone-700 text-lg group-hover:text-amber-400 transition-colors duration-300">
+                  <span className="text-stone-700 text-lg group-hover:text-amber-500 transition-colors duration-300">
                     {item.type === "Book" ? "◆" : "◇"}
                   </span>
                 </div>
-                <h4 className="text-lg font-light mb-2 group-hover:text-amber-400 transition-colors duration-300">
+                <h4 className="text-lg font-light mb-2 group-hover:text-amber-500 transition-colors duration-300">
                   {item.title}
                 </h4>
                 <p className="text-stone-500 text-sm leading-relaxed">
@@ -1406,11 +1738,11 @@ const Portfolio = () => {
           </div>
 
           {/* The End of Software Engineering */}
-          <div className="mt-12 p-8 border border-amber-400/30 bg-amber-400/5">
+          <div className="mt-12 p-8 border border-amber-500/30 bg-amber-500/5">
             <div className="grid lg:grid-cols-3 gap-8 items-center">
               <div className="lg:col-span-2">
                 <span
-                  className="text-xs px-2 py-1 bg-amber-400/20 text-amber-400 border border-amber-400/30 mb-4 inline-block"
+                  className="text-xs px-2 py-1 bg-amber-500/20 text-amber-500 border border-amber-500/30 mb-4 inline-block"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   Online Book · In Progress
@@ -1430,7 +1762,7 @@ const Portfolio = () => {
                   href="https://maneeshchaturvedi.github.io/the-end-of-software-engineering/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-6 py-3 border border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-stone-950 transition-all duration-300"
+                  className="inline-flex items-center gap-2 px-6 py-3 border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-stone-950 transition-all duration-300"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   <span>READ NOW</span>
@@ -1447,7 +1779,7 @@ const Portfolio = () => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <p
-              className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+              className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               Expertise
@@ -1461,7 +1793,7 @@ const Portfolio = () => {
             {keySkillsCategories.map((cat, i) => (
               <div key={i} className="text-center">
                 <h4
-                  className="text-sm text-amber-400 tracking-wider uppercase mb-4"
+                  className="text-sm text-amber-500 tracking-wider uppercase mb-4"
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   {cat.category}
@@ -1483,7 +1815,11 @@ const Portfolio = () => {
       </section>
 
       {/* Impact Numbers */}
-      <section className="py-24 px-8 lg:px-16 border-y border-stone-800">
+      <section
+        className={`py-16 lg:py-24 px-6 lg:px-16 border-y ${
+          darkMode ? "border-stone-800" : "border-stone-200"
+        }`}
+      >
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
@@ -1493,11 +1829,13 @@ const Portfolio = () => {
               { number: "3×", label: "Bug Reduction" },
             ].map((stat, i) => (
               <div key={i} className="group">
-                <div className="text-4xl lg:text-5xl font-light text-amber-400 mb-2 group-hover:scale-110 transition-transform duration-300">
+                <div className="text-3xl lg:text-5xl font-light text-amber-500 mb-2 group-hover:scale-110 transition-transform duration-300">
                   {stat.number}
                 </div>
                 <div
-                  className="text-sm text-stone-500 tracking-wider uppercase"
+                  className={`text-xs lg:text-sm tracking-wider uppercase ${
+                    darkMode ? "text-stone-500" : "text-stone-500"
+                  }`}
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   {stat.label}
@@ -1509,36 +1847,52 @@ const Portfolio = () => {
       </section>
 
       {/* Contact */}
-      <section id="connect" className="py-32 px-8 lg:px-16">
+      <section id="connect" className="py-16 lg:py-32 px-6 lg:px-16">
         <div className="max-w-4xl mx-auto text-center">
           <p
-            className="text-amber-400 tracking-widest text-sm mb-4 uppercase"
+            className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
             Let's Connect
           </p>
-          <h2 className="text-4xl lg:text-5xl font-light leading-tight mb-8">
+          <h2 className="text-3xl lg:text-5xl font-light leading-tight mb-8">
             Ready to think differently
             <br />
             about software?
           </h2>
-          <p className="text-xl text-stone-400 leading-relaxed mb-12">
+          <p
+            className={`text-lg lg:text-xl leading-relaxed mb-12 ${
+              darkMode ? "text-stone-400" : "text-stone-600"
+            }`}
+          >
             Whether you're looking to transform your engineering team or deepen
             your own practice— the first step is a conversation.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 lg:gap-6">
             <a
-              href="mailto:maneesh@stackshala.com"
-              className="group relative px-8 py-4 bg-amber-400 text-stone-950 font-medium tracking-wider overflow-hidden"
+              href="mailto:hello@stackshala.com"
+              className={`group relative px-6 lg:px-8 py-3 lg:py-4 font-medium tracking-wider overflow-hidden w-full sm:w-auto text-center ${
+                darkMode
+                  ? "bg-amber-500 text-stone-950"
+                  : "bg-amber-500 text-white"
+              }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               <span className="relative z-10">START A CONVERSATION</span>
-              <div className="absolute inset-0 bg-stone-100 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              <div
+                className={`absolute inset-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ${
+                  darkMode ? "bg-stone-100" : "bg-amber-600"
+                }`}
+              />
             </a>
             <a
               href="https://stackshala.com"
-              className="px-8 py-4 border border-stone-700 text-stone-400 hover:border-amber-400 hover:text-amber-400 transition-all duration-300 tracking-wider"
+              className={`px-6 lg:px-8 py-3 lg:py-4 border hover:border-amber-500 hover:text-amber-500 transition-all duration-300 tracking-wider w-full sm:w-auto text-center ${
+                darkMode
+                  ? "border-stone-700 text-stone-400"
+                  : "border-stone-300 text-stone-600"
+              }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
               EXPLORE STACKSHALA
@@ -1548,10 +1902,16 @@ const Portfolio = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-8 lg:px-16 border-t border-stone-800">
+      <footer
+        className={`py-12 px-6 lg:px-16 border-t ${
+          darkMode ? "border-stone-800" : "border-stone-200"
+        }`}
+      >
         <div className="max-w-6xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6">
           <div
-            className="text-stone-600 text-sm"
+            className={`text-sm ${
+              darkMode ? "text-stone-600" : "text-stone-400"
+            }`}
             style={{ fontFamily: "'Space Mono', monospace" }}
           >
             © 2025 Maneesh · Bangalore, India
@@ -1585,7 +1945,12 @@ const Portfolio = () => {
               SpecFlow
             </a>
           </div>
-          <div className="text-stone-700 text-xs italic">
+
+          <div
+            className={`text-xs italic ${
+              darkMode ? "text-stone-700" : "text-stone-400"
+            }`}
+          >
             Silent work. Visible impact.
           </div>
         </div>
