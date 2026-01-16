@@ -823,39 +823,6 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Experience Strip */}
-      <section
-        className={`py-12 lg:py-16 border-y overflow-hidden ${
-          darkMode ? "border-stone-800" : "border-stone-200"
-        }`}
-      >
-        <div
-          className={`flex flex-wrap justify-center gap-6 lg:gap-16 px-6 ${
-            darkMode ? "text-stone-500" : "text-stone-400"
-          } transition-all duration-1000 delay-700 ${
-            isLoaded ? "opacity-100" : "opacity-0"
-          }`}
-        >
-          {experience.map((exp, i) => (
-            <div key={i} className="flex items-center gap-2 lg:gap-4 group">
-              <span
-                className={`text-lg lg:text-2xl font-light group-hover:text-amber-500 transition-colors duration-300 ${
-                  darkMode ? "text-stone-300" : "text-stone-700"
-                }`}
-              >
-                {exp.company}
-              </span>
-              <span
-                className="text-xs tracking-wider uppercase hidden lg:block"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              >
-                {exp.role}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* Detailed Experience Section */}
       <section id="experience" className="py-16 lg:py-32 px-6 lg:px-16">
         <div className="max-w-6xl mx-auto">
