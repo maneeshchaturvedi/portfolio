@@ -34,6 +34,7 @@ const Portfolio = () => {
     { href: "#frameworks", label: "Frameworks" },
     { href: "#writing", label: "Writing" },
     { href: "#specflow", label: "SpecFlow" },
+    { href: "#opensource", label: "Open Source" },
     { href: "#ventures", label: "Ventures" },
     { href: "#connect", label: "Connect" },
   ];
@@ -322,6 +323,44 @@ const Portfolio = () => {
     { name: "Resend", category: "Email" },
     { name: "zerolog", category: "Logging" },
     { name: "Supabase", category: "Infrastructure" },
+  ];
+
+  const openSourceProjects = [
+    {
+      name: "resillm",
+      tagline: "Production-ready LLM resilience proxy",
+      description:
+        "A lightweight, language-agnostic proxy that sits between your application and LLM providers. Zero code changes required—just point your OpenAI-compatible client at resillm and get production-grade reliability features automatically.",
+      github: "https://github.com/maneeshchaturvedi/resillm",
+      features: [
+        {
+          title: "Automatic Retries",
+          description: "Exponential backoff with jitter for transient failures",
+        },
+        {
+          title: "Provider Fallback",
+          description: "Seamless failover when primary providers go down",
+        },
+        {
+          title: "Circuit Breakers",
+          description: "Prevent cascade failures across your LLM infrastructure",
+        },
+        {
+          title: "Cost Management",
+          description: "Real-time spend tracking with budget enforcement",
+        },
+        {
+          title: "Prometheus Metrics",
+          description: "Full observability for requests, latencies, tokens, and costs",
+        },
+        {
+          title: "Multi-Provider Support",
+          description: "OpenAI, Anthropic, Azure OpenAI, and Ollama out of the box",
+        },
+      ],
+      techStack: ["Go 1.21+", "Docker", "Prometheus", "OpenAI API"],
+      highlight: "Zero code changes",
+    },
   ];
 
   const blogCategories = [
@@ -1495,6 +1534,190 @@ const Portfolio = () => {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Open Source Section */}
+      <section id="opensource" className="py-16 lg:py-32 px-6 lg:px-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-3 gap-2 mb-12 lg:mb-20">
+            <div className="lg:col-span-1">
+              <p
+                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                Open Source
+              </p>
+            </div>
+            <div className="lg:col-span-2">
+              <h2 className="text-3xl lg:text-5xl font-light leading-tight">
+                Building in the open
+              </h2>
+            </div>
+          </div>
+
+          {openSourceProjects.map((project, i) => (
+            <div key={i} className="mb-16 last:mb-0">
+              {/* Project Header */}
+              <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 mb-12">
+                <div>
+                  <div className="flex items-center gap-4 mb-4">
+                    <h3 className="text-3xl lg:text-4xl font-light">
+                      {project.name}
+                    </h3>
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`px-3 py-1 text-xs border hover:border-amber-500 hover:text-amber-500 transition-all duration-300 ${
+                        darkMode
+                          ? "border-stone-700 text-stone-400"
+                          : "border-stone-300 text-stone-600"
+                      }`}
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
+                      GitHub
+                    </a>
+                  </div>
+                  <p className="text-amber-500 text-lg mb-4 italic">
+                    {project.tagline}
+                  </p>
+                  <p
+                    className={`text-lg leading-relaxed ${
+                      darkMode ? "text-stone-400" : "text-stone-600"
+                    }`}
+                  >
+                    {project.description}
+                  </p>
+                </div>
+
+                {/* Architecture Diagram */}
+                <div className="relative">
+                  <div
+                    className={`absolute -inset-4 border opacity-50 ${
+                      darkMode ? "border-stone-800" : "border-stone-300"
+                    }`}
+                    style={{ transform: "rotate(-1deg)" }}
+                  />
+                  <div
+                    className={`relative p-6 border ${
+                      darkMode
+                        ? "bg-stone-950 border-stone-800"
+                        : "bg-white border-stone-200"
+                    }`}
+                  >
+                    <p
+                      className={`text-xs tracking-widest uppercase mb-4 ${
+                        darkMode ? "text-stone-600" : "text-stone-400"
+                      }`}
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
+                      How It Works
+                    </p>
+                    <pre
+                      className={`text-xs leading-relaxed overflow-x-auto ${
+                        darkMode ? "text-stone-500" : "text-stone-500"
+                      }`}
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
+                      {`┌─────────────┐     ┌─────────────┐
+│  Your App   │────▶│   resillm   │
+│ (OpenAI SDK)│     │    Proxy    │
+└─────────────┘     └──────┬──────┘
+                           │
+         ┌─────────────────┼─────────────────┐
+         ▼                 ▼                 ▼
+┌─────────────┐   ┌─────────────┐   ┌─────────────┐
+│   OpenAI    │   │  Anthropic  │   │ Azure/Ollama│
+└─────────────┘   └─────────────┘   └─────────────┘
+
+  ◇ Retries      ◇ Fallback     ◇ Circuit Break
+  ◇ Metrics      ◇ Cost Mgmt    ◇ Rate Limits`}
+                    </pre>
+                  </div>
+                </div>
+              </div>
+
+              {/* Features Grid */}
+              <div className="mb-12">
+                <div className="flex items-center gap-4 mb-8">
+                  <span
+                    className="text-xs text-amber-500 tracking-widest uppercase"
+                    style={{ fontFamily: "'Space Mono', monospace" }}
+                  >
+                    Key Features
+                  </span>
+                  <div
+                    className={`flex-1 h-px ${
+                      darkMode ? "bg-stone-800" : "bg-stone-200"
+                    }`}
+                  />
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {project.features.map((feature, j) => (
+                    <div
+                      key={j}
+                      className={`group p-6 border transition-all duration-300 ${
+                        darkMode
+                          ? "border-stone-800/50 hover:border-stone-700"
+                          : "border-stone-200 hover:border-stone-300"
+                      }`}
+                    >
+                      <div className="flex items-start gap-4">
+                        <span className="text-amber-500/60 mt-1">◇</span>
+                        <div>
+                          <h4 className="font-light mb-2 group-hover:text-amber-500 transition-colors duration-300">
+                            {feature.title}
+                          </h4>
+                          <p
+                            className={`text-sm ${
+                              darkMode ? "text-stone-500" : "text-stone-500"
+                            }`}
+                          >
+                            {feature.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Tech Stack & CTA */}
+              <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div className="flex flex-wrap gap-3">
+                  {project.techStack.map((tech, j) => (
+                    <span
+                      key={j}
+                      className={`px-3 py-1 text-xs border ${
+                        darkMode
+                          ? "border-stone-700 text-stone-500"
+                          : "border-stone-300 text-stone-500"
+                      }`}
+                      style={{ fontFamily: "'Space Mono', monospace" }}
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+                <a
+                  href={project.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center gap-4 px-6 py-3 border hover:border-amber-500 hover:text-amber-500 transition-all duration-300 ${
+                    darkMode
+                      ? "border-stone-700 text-stone-400"
+                      : "border-stone-300 text-stone-600"
+                  }`}
+                  style={{ fontFamily: "'Space Mono', monospace" }}
+                >
+                  <span>VIEW ON GITHUB</span>
+                  <span>→</span>
+                </a>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
