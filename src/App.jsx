@@ -12,7 +12,7 @@ const Portfolio = () => {
     setIsLoaded(true);
     // Check system preference on mount
     const prefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
+      "(prefers-color-scheme: dark)",
     ).matches;
     const savedMode = localStorage.getItem("darkMode");
     if (savedMode !== null) {
@@ -33,7 +33,7 @@ const Portfolio = () => {
     { href: "#experience", label: "Experience" },
     { href: "#frameworks", label: "Frameworks" },
     { href: "#writing", label: "Writing" },
-    { href: "#specflow", label: "SpecFlow" },
+    { href: "#Vokt", label: "Vokt" },
     { href: "#opensource", label: "Open Source" },
     { href: "#ventures", label: "Ventures" },
     { href: "#connect", label: "Connect" },
@@ -275,7 +275,7 @@ const Portfolio = () => {
     },
   ];
 
-  const specflowFeatures = [
+  const VoktFeatures = [
     {
       title: "Specification Generator",
       description:
@@ -314,7 +314,7 @@ const Portfolio = () => {
     },
   ];
 
-  const specflowTechStack = [
+  const VoktTechStack = [
     { name: "Go 1.21+", category: "Language" },
     { name: "PostgreSQL", category: "Database" },
     { name: "pgxpool", category: "Connection Pool" },
@@ -343,7 +343,8 @@ const Portfolio = () => {
         },
         {
           title: "Circuit Breakers",
-          description: "Prevent cascade failures across your LLM infrastructure",
+          description:
+            "Prevent cascade failures across your LLM infrastructure",
         },
         {
           title: "Cost Management",
@@ -351,11 +352,13 @@ const Portfolio = () => {
         },
         {
           title: "Prometheus Metrics",
-          description: "Full observability for requests, latencies, tokens, and costs",
+          description:
+            "Full observability for requests, latencies, tokens, and costs",
         },
         {
           title: "Multi-Provider Support",
-          description: "OpenAI, Anthropic, Azure OpenAI, and Ollama out of the box",
+          description:
+            "OpenAI, Anthropic, Azure OpenAI, and Ollama out of the box",
         },
       ],
       techStack: ["Go 1.21+", "Docker", "Prometheus", "OpenAI API"],
@@ -1028,8 +1031,8 @@ const Portfolio = () => {
                     hoveredFramework === i
                       ? "border-amber-500 scale-105"
                       : darkMode
-                      ? "border-stone-800"
-                      : "border-stone-200"
+                        ? "border-stone-800"
+                        : "border-stone-200"
                   }`}
                   style={{
                     transform:
@@ -1257,8 +1260,8 @@ const Portfolio = () => {
                   activeCategory === cat.id
                     ? "bg-amber-500 text-stone-950"
                     : darkMode
-                    ? "border border-stone-700 text-stone-400 hover:border-stone-500"
-                    : "border border-stone-300 text-stone-600 hover:border-stone-400"
+                      ? "border border-stone-700 text-stone-400 hover:border-stone-500"
+                      : "border border-stone-300 text-stone-600 hover:border-stone-400"
                 }`}
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
@@ -1350,15 +1353,15 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* SpecFlow Section */}
+      {/* Vokt Section */}
       <section
-        id="specflow"
+        id="Vokt"
         className={`py-16 lg:py-32 px-6 lg:px-16 ${
           darkMode ? "bg-stone-900/50" : "bg-stone-100/50"
         }`}
       >
         <div className="max-w-6xl mx-auto">
-          {/* SpecFlow Header */}
+          {/* Vokt Header */}
           <div className="grid lg:grid-cols-2 gap-16 mb-20">
             <div>
               <p
@@ -1368,7 +1371,7 @@ const Portfolio = () => {
                 Developer Tool
               </p>
               <h2 className="text-4xl lg:text-5xl font-light leading-tight mb-6">
-                SpecFlow
+                Vokt
               </h2>
               <p className="text-xl text-stone-400 leading-relaxed mb-6">
                 An AI-powered, specification-driven development platform
@@ -1416,7 +1419,7 @@ const Portfolio = () => {
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   {`┌─────────────────────────────────┐
-│      SPECFLOW LICENSE SERVER    │
+│      Vokt LICENSE SERVER    │
 ├─────────────────────────────────┤
 │  Webhooks │ API │ LLM Proxy    │
 ├─────────────────────────────────┤
@@ -1450,7 +1453,7 @@ const Portfolio = () => {
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
-              {specflowFeatures.map((feature, i) => (
+              {VoktFeatures.map((feature, i) => (
                 <div
                   key={i}
                   className="group flex gap-6 p-6 border border-stone-800/50 hover:border-stone-700 transition-all duration-300"
@@ -1518,7 +1521,7 @@ const Portfolio = () => {
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center">
-              {specflowTechStack.map((tech, i) => (
+              {VoktTechStack.map((tech, i) => (
                 <div
                   key={i}
                   className="group px-4 py-3 border border-stone-800 hover:border-stone-700 transition-all duration-300"
@@ -2056,7 +2059,7 @@ const Portfolio = () => {
               href="https://devtools.stackshala.com"
               className="hover:text-amber-400 transition-colors duration-300"
             >
-              SpecFlow
+              Vokt
             </a>
           </div>
 
