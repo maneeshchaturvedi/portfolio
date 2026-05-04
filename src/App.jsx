@@ -474,6 +474,22 @@ const Portfolio = () => {
       slug: "lehmans-laws-dont-care-who-writes-the-code",
     },
     {
+      title: "Beyond Extract Method: What Elite Developers See in the Tennis Kata",
+      excerpt:
+        "The kata has been solved thousands of times. Something profound is being missed.",
+      category: "refactoring",
+      date: "Oct 2025",
+      slug: "beyond-extract-method-what-elite-developers-see-in-the-tennis-kata",
+    },
+    {
+      title: "Gilded Rose: Four Complexity Patterns in One Kata",
+      excerpt:
+        "Everyone focuses on eliminating if statements. The kata teaches something deeper.",
+      category: "refactoring",
+      date: "Oct 2025",
+      slug: "gilded-rose-four-complexity-patterns-in-one-kata",
+    },
+    {
       title: "System Design 101: Observers",
       excerpt:
         "All system design problems reduce to managing how time, wrongness, and pressure are perceived by their observers.",
