@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 const Portfolio = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState("hero");
-  const [hoveredFramework, setHoveredFramework] = useState(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
@@ -31,36 +30,11 @@ const Portfolio = () => {
 
   const navLinks = [
     { href: "#experience", label: "Experience" },
-    { href: "#frameworks", label: "Frameworks" },
     { href: "#writing", label: "Writing" },
     { href: "#Vokt", label: "Vokt" },
     { href: "#opensource", label: "Open Source" },
     { href: "#ventures", label: "Ventures" },
     { href: "#connect", label: "Connect" },
-  ];
-
-  const frameworks = [
-    {
-      name: "Discover",
-      description:
-        "Build mental models of any codebase, no matter how complex.",
-      metric: "Understand Unknown Code",
-      icon: "◈",
-    },
-    {
-      name: "Track",
-      description:
-        "Learn to manage and evolve systems that grow over time—complexity AI amplifies but cannot navigate.",
-      metric: "Tame Complexity",
-      icon: "◇",
-    },
-    {
-      name: "Adapt",
-      description:
-        "Not retrofitting patterns, but thinking from first principles—the architecture AI needs you to define.",
-      metric: "Design from Principles",
-      icon: "○",
-    },
   ];
 
   const metaFramework = [
@@ -84,18 +58,32 @@ const Portfolio = () => {
 
   const detailedExperience = [
     {
+      company: "Stackshala Technologies",
+      role: "Founder & Principal Architect",
+      team: "Vokt · deadline4j · resillm",
+      period: "2024 – Present",
+      location: "Bangalore",
+      highlights: [
+        "Architected Vokt—engineering intelligence platform with deterministic behavioural extraction for Go/JVM services; delivers PR risk profiling and MCP-based AI copilot with context injection",
+        "Designed and shipped deadline4j—zero-code SDK (11 Maven modules) for deadline propagation and adaptive timeouts across Spring Boot, instrumented with Micrometer + OpenTelemetry",
+        "Built resillm—lightweight LLM resilience proxy in Go with retries, provider fallback, circuit breakers, and Prometheus metrics for reliable agentic AI workflows",
+        "Trained 100+ engineers in distributed systems design and first-principles architecture thinking",
+      ],
+      tags: ["AI/ML", "Open Source", "SDKs", "Engineering Intelligence"],
+    },
+    {
       company: "Microsoft India",
       role: "Principal Engineer",
       team: "Bing / Microsoft Search",
       period: "2022 – 2024",
       location: "Bangalore & Hyderabad",
       highlights: [
-        "Optimized index generation pipelines—improved throughput and data freshness across critical search services",
-        "Re-architected junk and spam detection systems for result quality and long-term maintainability",
-        "Designed bot detection & DDoS mitigation using probabilistic data structures at web-scale",
-        "Consolidated multiple authentication modules—reduced complexity, accelerated developer velocity",
+        "Led data pipeline modernisation—replaced 40-min sort-merge dedup with SimHash LSH detection under 2ms; migrated 40+ stage monolithic batch pipeline to incremental tiered storage across five orgs",
+        "Designed four-layer bot fingerprinting pipeline (Count-Min Sketch, Bloom Filter, cardinality anomaly, 128-d session vectors); P99 under 0.3ms, filtering 15–20% automated traffic",
+        "Consolidated seven auth libraries across 20+ service teams into unified platform; reduced P99 latency from 12ms to under 2ms with zero incidents over 10-month migration",
+        "Decomposed monolithic spam classifier into four-stage ML pipeline; Fast Path classifier ran under 1ms on indexing critical path",
       ],
-      tags: ["Distributed Systems", "Security", "Performance"],
+      tags: ["Data Pipelines", "ML", "Probabilistic DS", "Security"],
     },
     {
       company: "Lowe's SSCB",
@@ -104,11 +92,11 @@ const Portfolio = () => {
       period: "2020 – 2022",
       location: "Bangalore",
       highlights: [
-        "Conceived Carbon—internal developer platform powering ~300 microservices across GCP, on-prem, and 1,800+ retail stores",
-        "Enabled dynamic scaling and improved operational resiliency across enterprise systems",
-        "Introduced best practices for API design, caching, data partitioning, monitoring, and transient failure handling",
+        "Conceived and led Carbon—internal developer platform adopted org-wide; cut service onboarding from weeks to days across ~300 microservices and 1,800+ retail stores",
+        "Defined platform-wide engineering standards for API design, caching, tracing, and failure handling—reduced production incidents by ~30% during peak retail windows",
+        "Partnered with product, architecture, and engineering leaders to develop and execute technical modernisation roadmap aligned with strategic business objectives",
       ],
-      tags: ["Platform Engineering", "Microservices", "GCP"],
+      tags: ["Platform Engineering", "Microservices", "GCP", "Governance"],
     },
     {
       company: "Myntra",
@@ -117,11 +105,10 @@ const Portfolio = () => {
       period: "2019 – 2020",
       location: "Bangalore",
       highlights: [
-        "Led architecture for 27 services across Order, Inventory, Logistics, Warehousing, and CRM",
-        "Fixed performance anti-patterns: chatty I/O, extraneous fetching, retry storms, improper caching",
-        "Achieved 20% latency reduction and 30% throughput improvement in Order Management",
+        "Led architecture across 27-service SCM outbound system; achieved 30% throughput improvement and 20% latency reduction by eliminating synchronous bottlenecks and retry storms",
+        "Extended Order Management architecture to enable 10+ logistics partner integrations without architectural rework",
       ],
-      tags: ["Performance", "E-commerce", "Optimization"],
+      tags: ["Performance", "E-commerce", "Data Pipelines"],
     },
     {
       company: "Target Corporation",
@@ -130,11 +117,10 @@ const Portfolio = () => {
       period: "2015 – 2017",
       location: "Bangalore",
       highlights: [
-        "Architected GOM omnichannel platform—BOPUS, Ship-to-Store, Ship-from-Store, curbside pickup, returns",
-        "Introduced Domain-Driven Design, Event Sourcing, CQRS, and event-driven architectures at scale",
-        "Built Enterprise Cart & Checkout platform; scaled team from 4 to 27 engineers",
+        "Architected GOM omnichannel platform powering BOPUS, ship-from-store, curbside pickup, and returns at Target scale (1,900+ stores, millions of daily transactions)",
+        "Introduced DDD, Event Sourcing, and CQRS into Target's commerce platform; scaled team from 4 to 27 engineers",
       ],
-      tags: ["DDD", "Event Sourcing", "CQRS"],
+      tags: ["DDD", "Event Sourcing", "CQRS", "Data Platforms"],
     },
     {
       company: "Intuit IDC",
@@ -143,10 +129,9 @@ const Portfolio = () => {
       period: "2014 – 2015",
       location: "Bangalore",
       highlights: [
-        "Modernized TurboTax build and CI systems—reduced build times from 4 hours to 14 minutes",
-        "Implemented AWS-based CI/CD pipelines, accelerating release cycles",
+        "Reduced TurboTax build times from 4 hours to 14 minutes (17x); built AWS CI/CD pipelines that became foundation for Intuit India's engineering velocity",
       ],
-      tags: ["DevOps", "CI/CD", "Build Systems"],
+      tags: ["CI/CD", "Cloud-Native", "AWS"],
     },
     {
       company: "Yahoo India",
@@ -155,15 +140,19 @@ const Portfolio = () => {
       period: "2011 – 2012",
       location: "Bangalore",
       highlights: [
-        "Built distributed rate-limiting for Yahoo Answers",
-        "Engineered DDoS detection systems; re-architected Yahoo Groups to SOA",
-        "Implemented MapReduce clickstream analytics and bandit-algorithm A/B testing platform",
+        "Re-architected Yahoo Groups from monolith to SOA serving millions of daily active users",
+        "Built Bloom filter / Count-Min Sketch DDoS detection; designed bandit-algorithm A/B testing platform eliminating fixed traffic splits",
       ],
-      tags: ["Distributed Systems", "Analytics", "SOA"],
+      tags: ["Distributed Systems", "Probabilistic DS", "ML"],
     },
   ];
 
   const earlierRoles = [
+    {
+      role: "Architect & Advisor",
+      company: "Independent Consulting",
+      period: "2012–2014 & 2017–2019",
+    },
     {
       role: "Chief Architect",
       company: "Veloz Software",
@@ -203,34 +192,38 @@ const Portfolio = () => {
 
   const keySkillsCategories = [
     {
-      category: "System Architecture & Design",
+      category: "Data & AI Platforms",
       skills: [
-        "Distributed Systems",
-        "Evolutionary Architecture",
-        "Domain-Driven Design",
-        "Event Sourcing",
-        "CQRS",
+        "Data Pipeline Architecture",
+        "ML Pipelines",
+        "Real-Time Streaming",
+        "Agentic AI Workflows",
+        "LLM Orchestration",
+        "MCP-Based Copilots",
+        "Metadata & Governance",
+      ],
+    },
+    {
+      category: "Cloud-Native & Distributed Systems",
+      skills: [
+        "AWS & GCP",
+        "Kubernetes",
         "Microservices",
-        "Platform Engineering",
+        "Event Sourcing & CQRS",
+        "DDD",
+        "Observability & SLOs",
+        "Distributed Tracing",
       ],
     },
     {
-      category: "System Comprehension",
+      category: "Engineering Leadership",
       skills: [
-        "Codebase Navigation",
-        "Modular Reasoning",
-        "Complexity Management",
-        "Technical Debt Reduction",
-        "Performance Engineering",
-      ],
-    },
-    {
-      category: "Security & Reliability",
-      skills: [
-        "Bot/DDoS Mitigation",
-        "Probabilistic Data Structures",
-        "System Reliability",
-        "Security at Scale",
+        "Multi-Team Management",
+        "SDK & API Design",
+        "Developer Platforms",
+        "Technical Roadmaps",
+        "Security & Compliance",
+        "Open-Source Authorship",
       ],
     },
   ];
@@ -991,82 +984,6 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Frameworks Section */}
-      <section id="frameworks" className="py-16 lg:py-32 px-6 lg:px-16">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-3 gap-2 mb-12 lg:mb-20">
-            <div className="lg:col-span-1">
-              <p
-                className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
-                style={{ fontFamily: "'Space Mono', monospace" }}
-              >
-                The Frameworks
-              </p>
-            </div>
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl lg:text-5xl font-light leading-tight">
-                Three lenses for seeing software clearly
-              </h2>
-            </div>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
-            {frameworks.map((fw, i) => (
-              <div
-                key={i}
-                className="group relative"
-                onMouseEnter={() => setHoveredFramework(i)}
-                onMouseLeave={() => setHoveredFramework(null)}
-              >
-                <div
-                  className={`absolute inset-0 border transition-all duration-500 ${
-                    hoveredFramework === i
-                      ? "border-amber-500 scale-105"
-                      : darkMode
-                        ? "border-stone-800"
-                        : "border-stone-200"
-                  }`}
-                  style={{
-                    transform:
-                      hoveredFramework === i ? "rotate(-1deg)" : "rotate(0deg)",
-                  }}
-                />
-                <div
-                  className={`relative p-6 lg:p-8 h-full transition-transform duration-500 group-hover:-translate-y-2 ${
-                    darkMode ? "bg-stone-900" : "bg-white shadow-sm"
-                  }`}
-                >
-                  <div className="text-4xl lg:text-5xl text-amber-500 mb-6 opacity-60">
-                    {fw.icon}
-                  </div>
-                  <h3 className="text-xl lg:text-2xl font-light mb-4">
-                    {fw.name}
-                  </h3>
-                  <p
-                    className={`leading-relaxed mb-6 ${
-                      darkMode ? "text-stone-400" : "text-stone-600"
-                    }`}
-                  >
-                    {fw.description}
-                  </p>
-                  <div
-                    className={`pt-6 border-t ${
-                      darkMode ? "border-stone-800" : "border-stone-200"
-                    }`}
-                  >
-                    <span
-                      className="text-sm text-amber-500 tracking-wider"
-                      style={{ fontFamily: "'Space Mono', monospace" }}
-                    >
-                      {fw.metric}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Meta Framework */}
       <section
@@ -2053,7 +1970,7 @@ const Portfolio = () => {
               />
             </a>
             <a
-              href="https://stackshala.com"
+              href="https://voktlabs.com"
               className={`px-6 lg:px-8 py-3 lg:py-4 border hover:border-amber-500 hover:text-amber-500 transition-all duration-300 tracking-wider w-full sm:w-auto text-center ${
                 darkMode
                   ? "border-stone-700 text-stone-400"
@@ -2061,7 +1978,7 @@ const Portfolio = () => {
               }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              EXPLORE STACKSHALA
+              EXPLORE VOKT
             </a>
           </div>
         </div>
