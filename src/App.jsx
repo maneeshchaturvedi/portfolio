@@ -188,29 +188,6 @@ const Portfolio = () => {
 
   const talksAndPublications = [
     {
-      title: "Distributed Systems: A Finer Perspective",
-      type: "Talk",
-      description:
-        "Advanced concepts and nuanced considerations in distributed systems design",
-    },
-    {
-      title: "Performance Engineering Methodologies",
-      type: "Talk",
-      description:
-        "Effective methodologies for understanding and optimizing system performance",
-    },
-    {
-      title: "Challenges in Driving Innovation in Organizations",
-      type: "Talk",
-      description:
-        "Obstacles and strategies for fostering innovation within corporate environments",
-    },
-    {
-      title: "Chain Replication in Distributed Databases",
-      type: "Talk",
-      description: "Practical application of chain replication techniques",
-    },
-    {
       title: "Go The Other Way",
       type: "Book",
       description:
@@ -277,55 +254,90 @@ const Portfolio = () => {
 
   const VoktFeatures = [
     {
-      title: "Specification Generator",
+      title: "Risk Scoring",
       description:
-        "Formal specification generation with type system, link database, and module architecture",
+        "Deterministic, explainable risk scores for every function—auditable and deep-dive capable",
       icon: "◈",
     },
     {
-      title: "Cold-Start & Drift Detection",
+      title: "Blast Radius & Impact",
       description:
-        "Detect unspecified code and spec drift—ensure AI changes remain spec-consistent",
+        "Visualize blast radius before merge—call graph exploration showing dependencies and propagation",
       icon: "◇",
     },
     {
-      title: "MCP Server Integration",
+      title: "Behavioral Regression Detection",
       description:
-        "Embedded JSON-RPC 2.0 server enabling deep integration with Claude Code, Cursor, and AI environments",
+        "Catch removed safety checks, swallowed errors, and subtle behavior changes automatically",
       icon: "○",
     },
     {
-      title: "LLM Proxy & Orchestration",
+      title: "AI Assistant Integration",
       description:
-        "5-layer validation with SSE streaming—protects API keys, enforces limits in real-time",
+        "MCP-compatible—works with Claude, Cursor, and AI coding assistants to check risk before editing",
       icon: "◆",
     },
     {
-      title: "License & Tier Management",
+      title: "Architecture Health",
       description:
-        "Server-authoritative validation with tiered plans, usage tracking, and cost control",
+        "Interactive dashboards for module coupling, hidden dependencies, and leaky abstractions",
       icon: "◈",
     },
     {
-      title: "Multi-Platform Distribution",
+      title: "CI/CD Integration",
       description:
-        "Homebrew, Chocolatey, GitHub Releases with automated CI/CD builds for macOS, Linux, Windows",
+        "GitHub Actions and GitLab CI support with advisory or blocking modes for behavioral regressions",
       icon: "◇",
     },
   ];
 
   const VoktTechStack = [
-    { name: "Go 1.21+", category: "Language" },
-    { name: "PostgreSQL", category: "Database" },
-    { name: "pgxpool", category: "Connection Pool" },
-    { name: "OpenAI API", category: "LLM Provider" },
-    { name: "Razorpay", category: "Payments" },
-    { name: "Resend", category: "Email" },
-    { name: "zerolog", category: "Logging" },
-    { name: "Supabase", category: "Infrastructure" },
+    { name: "Go", category: "Language" },
+    { name: "Static Analysis", category: "Core" },
+    { name: "Call Graphs", category: "Analysis" },
+    { name: "MCP Protocol", category: "Integration" },
+    { name: "GitHub Actions", category: "CI/CD" },
+    { name: "GitLab CI", category: "CI/CD" },
+    { name: "Local-Only", category: "Privacy" },
+    { name: "Deterministic", category: "No LLM" },
   ];
 
   const openSourceProjects = [
+    {
+      name: "deadline4j",
+      tagline: "gRPC-style deadlines for Spring HTTP",
+      description:
+        "Zero-code deadline propagation, adaptive timeouts, and timeout budgets for Spring applications. Brings gRPC's deadline model to the Spring HTTP ecosystem—propagates deadlines across RestTemplate, WebClient, and Feign with no application code changes.",
+      github: "https://github.com/maneeshchaturvedi/deadline4j",
+      features: [
+        {
+          title: "Zero-Code Propagation",
+          description: "Deadlines propagate automatically via interceptors and filters—no call-site changes",
+        },
+        {
+          title: "Adaptive Timeouts",
+          description: "Timeouts derived from observed latency distributions, not hardcoded values",
+        },
+        {
+          title: "Timeout Budgets",
+          description: "Track how much of a request's time budget is consumed across sequential calls",
+        },
+        {
+          title: "Optional Service Skipping",
+          description: "Automatically skip optional services when budget is insufficient",
+        },
+        {
+          title: "Observability",
+          description: "Micrometer metrics and OpenTelemetry span attributes out of the box",
+        },
+        {
+          title: "Incremental Adoption",
+          description: "Ships in observe mode—enforce per-service, per-environment at your own pace",
+        },
+      ],
+      techStack: ["Java 11+", "Spring Boot 3.x", "Micrometer", "OpenTelemetry"],
+      highlight: "Zero code changes",
+    },
     {
       name: "resillm",
       tagline: "Production-ready LLM resilience proxy",
@@ -367,14 +379,100 @@ const Portfolio = () => {
   ];
 
   const blogCategories = [
-    { id: "all", label: "All Articles", count: "90+" },
-    { id: "system-design", label: "System Design", count: "12" },
+    { id: "all", label: "All Articles", count: "120+" },
+    { id: "system-design", label: "System Design", count: "20" },
     { id: "refactoring", label: "Refactoring", count: "15" },
-    { id: "philosophy", label: "Philosophy", count: "20" },
-    { id: "practice", label: "Practice", count: "25" },
+    { id: "philosophy", label: "Philosophy", count: "25" },
+    { id: "practice", label: "Practice", count: "35" },
   ];
 
   const featuredArticles = [
+    {
+      title: "The Deep Structure of Sophisticated Software",
+      excerpt:
+        "What separates sophisticated software from merely complex software—and why most codebases never cross that threshold.",
+      category: "philosophy",
+      date: "Apr 2026",
+      slug: "the-deep-structure-of-sophisticated-software",
+      featured: true,
+    },
+    {
+      title: "Agentic Systems and the DevSecOps Attack Surface",
+      excerpt:
+        "AI agents introduce a fundamentally new class of security concerns that existing DevSecOps frameworks aren't designed to handle.",
+      category: "practice",
+      date: "Apr 2026",
+      slug: "agentic-systems-and-the-devsecops-attack-surface",
+      featured: true,
+    },
+    {
+      title: "The Post-Microservices Recalibration",
+      excerpt:
+        "The industry is quietly walking back from microservices orthodoxy. What comes next requires a different kind of thinking.",
+      category: "system-design",
+      date: "Apr 2026",
+      slug: "the-post-microservices-recalibration",
+      featured: true,
+    },
+  ];
+
+  const recentArticles = [
+    {
+      title: "RAG Doesn't Fix Hallucination. Neither Does Anything Else",
+      excerpt: "The fundamental problem isn't retrieval—it's that generation and truth are orthogonal processes.",
+      category: "practice",
+      date: "Apr 2026",
+      slug: "rag-doesnt-fix-hallucination-neither-does-anything-else",
+    },
+    {
+      title: "The Edge-Cloud Continuum",
+      excerpt: "The binary of edge vs. cloud is collapsing into a spectrum. Architecture must follow.",
+      category: "system-design",
+      date: "Apr 2026",
+      slug: "the-edge-cloud-continuum",
+    },
+    {
+      title: "The Engineering Discipline Your Observability Stack Is Missing",
+      excerpt: "You have metrics, logs, and traces. You're still missing the discipline that makes them useful.",
+      category: "practice",
+      date: "Apr 2026",
+      slug: "the-engineering-discipline-your-observability-stack-is-missing",
+    },
+    {
+      title: "Slopsquatting Is Not a Hallucination Problem",
+      excerpt: "AI-generated package names that don't exist are being registered by attackers. The supply chain implications are severe.",
+      category: "practice",
+      date: "Apr 2026",
+      slug: "slopsquatting-is-not-a-hallucination-problem",
+    },
+    {
+      title: "Load Is Not Where Your Data Lives",
+      excerpt: "The conflation of data placement with load distribution is the source of most scaling mistakes.",
+      category: "system-design",
+      date: "Apr 2026",
+      slug: "load-is-not-where-your-data-lives",
+    },
+    {
+      title: "Consistent Hashing Only Tells You Where Data Lives",
+      excerpt: "The algorithm everyone implements but few understand the limitations of.",
+      category: "system-design",
+      date: "Apr 2026",
+      slug: "consistent-hashing-only-tells-you-where-data-lives",
+    },
+    {
+      title: "Approximate Membership: Understanding Bloom and Quotient Filters",
+      excerpt: "Probabilistic data structures that trade certainty for space—and when that trade is worth making.",
+      category: "system-design",
+      date: "Apr 2026",
+      slug: "approximate-membership-understanding-bloom-and-quotient-filters",
+    },
+    {
+      title: "Lehman's Laws Don't Care Who Writes the Code",
+      excerpt: "Software evolution laws from 1974 apply unchanged to AI-generated code. Maintenance remains the dominant cost.",
+      category: "philosophy",
+      date: "Apr 2026",
+      slug: "lehmans-laws-dont-care-who-writes-the-code",
+    },
     {
       title: "System Design 101: Observers",
       excerpt:
@@ -382,42 +480,6 @@ const Portfolio = () => {
       category: "system-design",
       date: "Dec 2025",
       slug: "system-design-101-observers",
-      featured: true,
-    },
-    {
-      title: "The Paradox of System Design Preparation",
-      excerpt:
-        "The better you get at pattern-matching system design answers, the worse you get at actually designing systems.",
-      category: "philosophy",
-      date: "Dec 2025",
-      slug: "the-paradox-of-system-design-preparation",
-      featured: true,
-    },
-    {
-      title: "Refactoring is About Causality, Not Just Behavior Preservation",
-      excerpt:
-        "Martin Fowler's definition has guided engineers for decades. It's clean, safe, and also incomplete.",
-      category: "refactoring",
-      date: "Oct 2025",
-      slug: "refactoring-is-about-causality-not-just-behavior-preservation",
-      featured: true,
-    },
-  ];
-
-  const recentArticles = [
-    {
-      title: "Software Design 101: Twitter Timeline",
-      excerpt: "Observer Analysis applied to real-world distributed systems.",
-      category: "system-design",
-      date: "Jan 2026",
-      slug: "software-design-101-twitter-timeline",
-    },
-    {
-      title: "System Design 101: Designing Uber",
-      excerpt: "Putting the four-axis framework into comprehensive practice.",
-      category: "system-design",
-      date: "Dec 2025",
-      slug: "system-design-101-designing-uber",
     },
     {
       title: "System Design 101: Pressure",
@@ -428,98 +490,12 @@ const Portfolio = () => {
       slug: "system-design-101-pressure",
     },
     {
-      title: "System Design 101: Wrongness",
-      excerpt:
-        "The distance between what an observer expected and what they encountered.",
-      category: "system-design",
-      date: "Dec 2025",
-      slug: "system-design-101-wrongness",
-    },
-    {
-      title: "System Design 101: Time",
-      excerpt: "Time is the debt you redistribute between observers.",
-      category: "system-design",
-      date: "Dec 2025",
-      slug: "system-design-101-time",
-    },
-    {
       title: "We Need to Learn How to Write Software",
       excerpt:
         "Everything traces back to bugs. Strip away the methodologies, and two problems remain.",
       category: "philosophy",
       date: "Nov 2025",
       slug: "we-need-to-learn-how-to-write-software",
-    },
-    {
-      title: "What's Missing from Programming Books",
-      excerpt:
-        "Clean Code, Pragmatic Programmer, Design Patterns—excellent advice that fails at scale.",
-      category: "philosophy",
-      date: "Nov 2025",
-      slug: "whats-missing-from-programming-books",
-    },
-    {
-      title: "Why Code Reviews and Tests Don't Improve What Matters",
-      excerpt: "The feedback we think we're getting vs. what actually changes.",
-      category: "philosophy",
-      date: "Nov 2025",
-      slug: "why-code-reviews-and-tests-dont-improve-what-matters",
-    },
-    {
-      title: "The Lost Art of Constraint-Based Thinking",
-      excerpt:
-        "We learned preconditions and postconditions. Then we forgot them entirely.",
-      category: "practice",
-      date: "Oct 2025",
-      slug: "the-lost-art-of-constraint-based-thinking",
-    },
-    {
-      title:
-        "Beyond Extract Method: What Elite Developers See in the Tennis Kata",
-      excerpt:
-        "The kata has been solved thousands of times. Something profound is being missed.",
-      category: "refactoring",
-      date: "Oct 2025",
-      slug: "beyond-extract-method-what-elite-developers-see-in-the-tennis-kata",
-    },
-    {
-      title: "Gilded Rose: Four Complexity Patterns in One Kata",
-      excerpt:
-        "Everyone focuses on eliminating if statements. The kata teaches something deeper.",
-      category: "refactoring",
-      date: "Oct 2025",
-      slug: "gilded-rose-four-complexity-patterns-in-one-kata",
-    },
-    {
-      title: "Beyond Conway's Game of Life",
-      excerpt:
-        "How foundational principles reveal both excellence and pathology in real code.",
-      category: "refactoring",
-      date: "Oct 2025",
-      slug: "beyond-patterns-what-conways-game-of-life-teaches-us-about-software-design",
-    },
-    {
-      title: "Beyond Fowler's Refactoring",
-      excerpt:
-        "Going further than polymorphism—value objects, type-driven design, and MIRO principles.",
-      category: "refactoring",
-      date: "Oct 2025",
-      slug: "beyond-fowlers-refactoring-advanced-domain-modeling-for-the-theatrical-players-kata",
-    },
-    {
-      title: "When Causality Becomes Opaque: Lessons from the AWS Outage",
-      excerpt:
-        "Three components functioning correctly. One catastrophic interaction.",
-      category: "practice",
-      date: "Oct 2025",
-      slug: "when-causality-becomes-opaque-lessons-from-the-aws-outage",
-    },
-    {
-      title: "Clean Code Is About Boundaries",
-      excerpt: "Everything else is just a side effect.",
-      category: "philosophy",
-      date: "Oct 2025",
-      slug: "clean-code-is-about-boundaries-everything-else-is-just-a-side-effect",
     },
     {
       title: "How to Become a Better Developer in the Age of LLMs",
@@ -1151,7 +1127,7 @@ const Portfolio = () => {
               className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              90+ Articles & Counting
+              120+ Articles & Counting
             </p>
             <h2 className="text-3xl lg:text-5xl font-light leading-tight mb-6">
               The Stackshala Blog
@@ -1346,7 +1322,7 @@ const Portfolio = () => {
               }`}
               style={{ fontFamily: "'Space Mono', monospace" }}
             >
-              <span>EXPLORE ALL 90+ ARTICLES</span>
+              <span>EXPLORE ALL 120+ ARTICLES</span>
               <span className="text-xl">→</span>
             </a>
           </div>
@@ -1368,27 +1344,37 @@ const Portfolio = () => {
                 className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
-                Developer Tool
+                Engineering Intelligence
               </p>
               <h2 className="text-4xl lg:text-5xl font-light leading-tight mb-6">
                 Vokt
               </h2>
               <p className="text-xl text-stone-400 leading-relaxed mb-6">
-                An AI-powered, specification-driven development platform
-                enabling safe AI-assisted changes on large codebases. Built as a
-                distributed client-server system with a cross-platform CLI (~14K
-                LOC Go, 21 internal modules) and embedded MCP server for deep
-                integration with Claude Code, Cursor, and AI coding
-                environments.
+                An engineering intelligence platform that analyzes code changes
+                to surface behavioral impact, risk, and blast radius—so teams
+                know what changed, what it means, and what it affects. Deterministic
+                analysis with no LLM involvement. Supports Go and Java today,
+                with Kotlin, TypeScript, C#, and Rust coming soon. Local-only
+                processing—no data leaves your machine.
               </p>
+              <a
+                href="https://voktlabs.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 text-xs border border-stone-700 text-stone-400 hover:border-amber-500 hover:text-amber-500 transition-all duration-300 mb-6"
+                style={{ fontFamily: "'Space Mono', monospace" }}
+              >
+                <span>voktlabs.com</span>
+                <span>→</span>
+              </a>
               <div className="flex flex-wrap gap-3 mb-6">
                 {[
                   "Go",
-                  "PostgreSQL",
-                  "OpenAI",
+                  "Static Analysis",
+                  "Call Graphs",
                   "MCP",
-                  "Razorpay",
-                  "SSE Streaming",
+                  "GitHub Actions",
+                  "Local-Only",
                 ].map((tag, i) => (
                   <span
                     key={i}
@@ -1419,22 +1405,21 @@ const Portfolio = () => {
                   style={{ fontFamily: "'Space Mono', monospace" }}
                 >
                   {`┌─────────────────────────────────┐
-│      Vokt LICENSE SERVER    │
+│       CODE CHANGE (PR/Diff)     │
 ├─────────────────────────────────┤
-│  Webhooks │ API │ LLM Proxy    │
+│      STATIC ANALYSIS ENGINE     │
+│  Call Graphs │ Risk │ Coupling  │
 ├─────────────────────────────────┤
-│         MIDDLEWARE              │
-│   (Recovery, Logging, Auth)     │
+│     BEHAVIORAL DIFF ENGINE      │
+│  Refactor vs Change │ Regressions│
 ├─────────────────────────────────┤
-│       BUSINESS LOGIC            │
-│ Licenses │ Tiers │ Email │ Pay │
+│      INTEGRATION LAYER          │
+│  CI/CD │ MCP │ AI Assistants    │
 ├─────────────────────────────────┤
-│       DATABASE LAYER            │
-│     (pgxpool, 5-25 conn)        │
-└─────────────────────────────────┘
-            │
-            ▼
-    PostgreSQL (Supabase)`}
+│         OUTPUT                   │
+│  Risk Scores │ Blast Radius     │
+│  Explanations │ Advisories      │
+└─────────────────────────────────┘`}
                 </pre>
               </div>
             </div>
@@ -1474,25 +1459,25 @@ const Portfolio = () => {
             </div>
           </div>
 
-          {/* 5-Layer LLM Validation */}
+          {/* Analysis Pipeline */}
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-8">
               <span
                 className="text-xs text-amber-500 tracking-widest uppercase"
                 style={{ fontFamily: "'Space Mono', monospace" }}
               >
-                LLM Proxy: 5-Layer Validation
+                Analysis Pipeline
               </span>
               <div className="flex-1 h-px bg-stone-800" />
             </div>
 
             <div className="flex flex-wrap gap-4 justify-center">
               {[
-                "License Valid?",
-                "Under Op Limit?",
-                "Token Budget OK?",
-                "Request Cap OK?",
-                "Rate Limit OK?",
+                "Parse Change",
+                "Build Call Graph",
+                "Classify Behavior",
+                "Score Risk",
+                "Report Impact",
               ].map((layer, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <span
@@ -1775,27 +1760,75 @@ const Portfolio = () => {
 
       {/* Book Section */}
       <section className="py-32 px-8 lg:px-16 bg-gradient-to-b from-stone-900/50 to-stone-950">
-        <div className="max-w-4xl mx-auto text-center">
-          <p
-            className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
-            style={{ fontFamily: "'Space Mono', monospace" }}
-          >
-            In Progress
-          </p>
-          <h2 className="text-4xl lg:text-6xl font-light leading-tight mb-8 italic">
-            "Defining You"
-          </h2>
-          <p className="text-xl text-stone-400 leading-relaxed max-w-2xl mx-auto mb-12">
-            A book about self-knowledge and identity—moving beyond traditional
-            labels to observe oneself through behavioral patterns.
-          </p>
-          <div
-            className="inline-flex items-center gap-4 text-stone-500 text-sm"
-            style={{ fontFamily: "'Space Mono', monospace" }}
-          >
-            <span className="w-8 h-px bg-stone-700" />
-            Coming Soon
-            <span className="w-8 h-px bg-stone-700" />
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-12">
+            <p
+              className="text-amber-500 tracking-widest text-sm mb-4 uppercase"
+              style={{ fontFamily: "'Space Mono', monospace" }}
+            >
+              Book · Coming Soon
+            </p>
+            <h2 className="text-4xl lg:text-6xl font-light leading-tight mb-6 italic">
+              "The Art of Software Design"
+            </h2>
+            <p className="text-xl text-stone-400 leading-relaxed max-w-3xl mx-auto">
+              A unified framework for system design that moves beyond pattern
+              memorization to first-principles thinking. The core thesis:{" "}
+              <span className={darkMode ? "text-stone-200" : "text-stone-800"}>
+                Wrongness is conserved
+              </span>
+              —it cannot be eliminated, only routed. Every design decision routes
+              wrongness to different observers, and the art of system design is
+              making conscious choices about who experiences wrongness and when.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 mt-16">
+            {/* The Observer Framework */}
+            <div className={`p-8 border ${darkMode ? "border-stone-800 bg-stone-900/50" : "border-stone-200 bg-white"}`}>
+              <h3 className="text-xl font-light mb-6 text-amber-500">The Observer Framework</h3>
+              <p className={`text-sm mb-6 ${darkMode ? "text-stone-400" : "text-stone-600"}`}>
+                A systematic seven-step process for deriving system designs from first principles:
+              </p>
+              <ol className={`space-y-3 text-sm ${darkMode ? "text-stone-400" : "text-stone-600"}`}>
+                {[
+                  "Enumerate observers — Who has expectations?",
+                  "Map time horizons — When do they evaluate?",
+                  "Determine wrongness tolerances — What can each accept?",
+                  "Identify gaps — Where does wrongness accumulate?",
+                  "Stress test with pressure — What happens under load?",
+                  "Derive constraints — What must be true?",
+                  "Route wrongness consciously — Who gains, who pays?",
+                ].map((step, i) => (
+                  <li key={i} className="flex gap-3">
+                    <span className="text-amber-500/60 shrink-0" style={{ fontFamily: "'Space Mono', monospace" }}>{i + 1}.</span>
+                    <span>{step}</span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+
+            {/* How to Read */}
+            <div className={`p-8 border ${darkMode ? "border-stone-800 bg-stone-900/50" : "border-stone-200 bg-white"}`}>
+              <h3 className="text-xl font-light mb-6 text-amber-500">Structure</h3>
+              <div className={`space-y-4 text-sm ${darkMode ? "text-stone-400" : "text-stone-600"}`}>
+                <p><span className={darkMode ? "text-stone-200" : "text-stone-800"}>Part I: Foundations</span> — The theoretical framework. Six chapters, read in order.</p>
+                <p className="font-light text-stone-500 mb-2">Parts II–V apply the framework to real-world systems:</p>
+                <ul className="space-y-2 pl-4">
+                  {[
+                    "Communication — Message queues, messaging apps, collaborative editing",
+                    "Discovery & Search — Timelines, typeahead, maps, newsfeed ranking",
+                    "Transactions & Coordination — Payment systems, booking, distributed locks",
+                    "Infrastructure — Load balancers, CDNs, rate limiters, monitoring",
+                  ].map((part, i) => (
+                    <li key={i} className="flex gap-3">
+                      <span className="text-amber-500/60">◇</span>
+                      <span>{part}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -1941,7 +1974,7 @@ const Portfolio = () => {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
             {[
               { number: "25+", label: "Years Building" },
-              { number: "90+", label: "Articles Written" },
+              { number: "120+", label: "Articles Written" },
               { number: "100+", label: "Engineers Trained" },
               { number: "3×", label: "Bug Reduction" },
             ].map((stat, i) => (
@@ -2056,7 +2089,7 @@ const Portfolio = () => {
               Blog
             </a>
             <a
-              href="https://devtools.stackshala.com"
+              href="https://voktlabs.com"
               className="hover:text-amber-400 transition-colors duration-300"
             >
               Vokt
